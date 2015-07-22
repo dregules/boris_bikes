@@ -2,8 +2,8 @@ require 'docking_station'
 
 describe DockingStation do
   it 'gets bike that works' do
-    bike = subject.dock Bike.new                       #expect(subject.release_bike).to be_a Bike #
-    expect(bike).to be_working
+    subject.dock Bike.new                       #expect(subject.release_bike).to be_a Bike #
+    expect(subject.release_bike).to be_working
   end
 
   describe ' #dock' do
@@ -11,10 +11,11 @@ describe DockingStation do
       expect(subject).to respond_to(:dock).with(1).argument
     end
 
-    it 'should raise an error if there is already a bike docked' do
-      subject.dock Bike.new
-      expect{ subject.dock Bike.new }.to raise_error "There is already a bike docked!"
+    it 'should raise an error if it is over capacity' do
+      20.times {subject.dock Bike.new}
+      expect{ subject.dock Bike.new }.to raise_error "Dock is over capacity!"
     end
+
   end
 
   describe ' #release_bike' do
@@ -22,14 +23,21 @@ describe DockingStation do
       expect(subject).to respond_to :release_bike
     end
 
-    it 'when the same bike docked is available' do
-      bike = subject.dock Bike.new               #Create Bike
-      expect(subject.release_bike).to eq bike
-    end
+    # it 'when the same bike docked is available' do
+    #   bike = subject.dock Bike.new
+    #   expect(subject.release_bike).to eq bike
+    # end
 
     it 'raises an error when empty' do
-    expect { subject.release_bike }.to raise_error "Bikes not available!"
-  end
+      expect { subject.release_bike }.to raise_error "Bikes not available!"
+    end
+
+    it ' removes @bike from array after being released' do
+      subject.dock Bike.new
+      bikes_length_before_release = subject.bikes.length
+      subject.release_bike
+      expect(subject.bikes.length).to eq(bikes_length_before_release - 1)
+    end
 
   end
 end
