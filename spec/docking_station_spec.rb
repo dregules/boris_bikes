@@ -6,18 +6,23 @@ describe DockingStation do
     expect(bike).to be_working
   end
 
-  #describe ' #dock' do
+  describe ' #dock' do
     it 'Responds to #dock with a new Bike' do
       expect(subject).to respond_to(:dock).with(1).argument
     end
-  #end
+
+    it 'should raise an error if there is already a bike docked' do
+      subject.dock Bike.new
+      expect{ subject.dock Bike.new }.to raise_error "There is already a bike docked!"
+    end
+  end
 
   describe ' #release_bike' do
     it 'Responds to release_bike' do
       expect(subject).to respond_to :release_bike
     end
 
-    it 'Would give a bike if available' do
+    it 'when the same bike docked is available' do
       bike = subject.dock Bike.new               #Create Bike
       expect(subject.release_bike).to eq bike
     end
