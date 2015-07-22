@@ -1,5 +1,5 @@
 class User
-  def report
+  def report bike
 
   end
 end
