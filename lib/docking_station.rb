@@ -2,9 +2,11 @@ require_relative 'bike'        #irb was modified to require ./lib by default
 
 class DockingStation
   DEFAULT_CAPACITY = 20
+  attr_accessor :capacity
 
   def initialize
     @bikes = []
+    @capacity = DEFAULT_CAPACITY
   end
 
   def release_bike
@@ -27,18 +29,13 @@ class DockingStation
     @bikes
   end
 
-  # def capacity
-  #   DEFAULT_CAPACITY
-  # end
-
-
   private
 
-  def full?
-    bikes.length >= DEFAULT_CAPACITY
-  end
+      def full?
+        bikes.length >= capacity
+      end
 
-  def empty?
-    bikes.empty?
-  end
+      def empty?
+        bikes.empty?
+      end
 end
