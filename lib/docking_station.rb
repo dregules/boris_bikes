@@ -1,11 +1,17 @@
 require_relative 'bike'        #irb was modified to require ./lib by default
 
 class DockingStation
+
   def release_bike
-    Bike.new
+    if @bike      # if a bike was docked then it exists
+     return @bike
+    else
+      raise 'Bikes not available!'
+    end
   end
 
   def dock bike
+    @bike = bike
   end
 
 end
