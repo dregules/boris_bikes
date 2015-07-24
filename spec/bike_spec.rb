@@ -21,4 +21,5 @@ describe Bike do
     expect(bike).to be_broken
 
   end
+
 end
