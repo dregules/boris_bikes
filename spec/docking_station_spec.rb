@@ -1,10 +1,6 @@
 require 'docking_station'
 
 describe DockingStation do
-  # it 'gets bike that works' do
-  #   subject.dock Bike.new                       #expect(subject.release_bike).to be_a Bike #
-  #   expect(subject.release_bike).to be_working
-  # end
 
   describe ' #dock' do
     it 'Responds to #dock with a new Bike' do
@@ -12,8 +8,8 @@ describe DockingStation do
     end
 
     it 'should raise an error if it is over capacity' do
-      subject.capacity.times {subject.dock Bike.new}
-      expect{ subject.dock Bike.new }.to raise_error "Dock is over capacity!"
+      subject.capacity.times {subject.dock :bike}
+      expect{ subject.dock :bike }.to raise_error "Dock is over capacity!"
     end
   end
 
@@ -41,9 +37,9 @@ describe DockingStation do
     end
 
     it " should release a working bike if there is one" do
-      working_bike = Bike.new
-      bike2 = Bike.new
-      bike2.report_broken
+      working_bike = double :bike, working?: true
+      bike2 = double :bike, broken?: true
+
       subject.dock working_bike
       subject.dock bike2
       expect(subject.release_bike).to be working_bike
